@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebrahim Hamid - CV</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700;800&family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf',
+                            500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        beige: {
+                            50: '#fdfbf7', 100: '#f9f6ef', 200: '#f3ebd8', 300: '#e5d5b5',
+                            400: '#d4b98c', 500: '#c29b62', 600: '#b48252',
+                        }
+                    },
+                    fontFamily: {
+                        arabic: ['Cairo', 'sans-serif'],
+                        english: ['Inter', 'sans-serif'],
+                        ruqaa: ['"Aref Ruqaa"', 'serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        html[lang="en"] body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass {
+            background: rgba(253, 251, 247, 0.85); /* beige-50 */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(20, 184, 166, 0.15); /* teal border */
+        }
+
+        .dark .glass {
+            background: rgba(4, 47, 46, 0.85); /* teal-950 */
+            border-bottom: 1px solid rgba(253, 251, 247, 0.05);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #14b8a6; /* teal-500 */
+            margin-top: 8px;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .section-title:hover::after {
+            width: 100px;
+        }
+
+        /* Edit mode highlights */
+        .editable-element {
+            position: relative;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+        
+        .admin-mode .editable-element:hover {
+            outline: 2px dashed #2dd4bf;
+            background-color: rgba(45, 212, 191, 0.1);
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            display: none;
+            position: absolute;
+            top: -10px;
+            right: -10px; /* Adjust for RTL/LTR later via JS if needed */
+            background: #14b8a6;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        html[dir="rtl"] .edit-btn {
+            right: auto;
+            left: -10px;
+        }
+
+        .admin-mode .editable-element:hover .edit-btn {
+            display: flex;
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            background-color: rgba(4, 47, 46, 0.7); /* Teal 950 */
+            backdrop-filter: blur(4px);
+        }
+
+        /* Animated Background Shapes */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            animation: float 20s infinite alternate ease-in-out;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .dark .bg-shape {
+            opacity: 0.25;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(40px, 60px) scale(1.05); }
+        }
+
+        /* Interactive Spotlight Card */
+        .interactive-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .interactive-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px -10px rgba(20, 184, 166, 0.3);
+            border-color: rgba(20, 184, 166, 0.4);
+            z-index: 10;
+        }
+        .interactive-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(20, 184, 166, 0.12), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .interactive-card:hover::before {
+            opacity: 1;
+        }
+        .interactive-card > * {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-transparent text-teal-900 dark:text-beige-50 antialiased min-h-screen overflow-x-hidden transition-colors duration-500">
+
+    <!-- Global Background Image (Editorial Desk) -->
+    <div class="fixed inset-0 -z-30 bg-cover bg-center bg-no-repeat transition-opacity duration-700" style="background-image: url('ebrahim-hero-editorial_f9b14bf0.jpg');"></div>
+    
+    <!-- Global Glass Overlay (ensures readability) -->
+    <div class="fixed inset-0 -z-20 bg-beige-50/85 dark:bg-teal-950/90 backdrop-blur-[3px] transition-colors duration-700"></div>
+
+    <!-- Animated Background Elements -->
+    <div class="bg-shape bg-teal-400/40 dark:bg-teal-500/20 w-[400px] h-[400px] top-[-10%] left-[-10%]"></div>
+    <div class="bg-shape bg-beige-400/40 dark:bg-teal-700/20 w-[500px] h-[500px] bottom-[-20%] right-[-10%]" style="animation-delay: -5s;"></div>
+    <div class="bg-shape bg-teal-500/30 dark:bg-teal-800/30 w-[300px] h-[300px] top-[40%] left-[30%]" style="animation-delay: -10s; filter: blur(150px);"></div>
+
+    <header class="fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300" id="header">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo / Name -->
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="font-bold text-xl text-teal-700 dark:text-teal-300" id="header-name">إبراهيم حميد</span>
+                </div>
+                
+                <!-- Controls (Lang, Theme, Admin) -->
+                <div class="flex items-center gap-3 sm:gap-5">
+                    <!-- Admin Panel Toggle Button -->
+                    <button id="admin-panel-btn" class="hidden text-sm font-semibold bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 px-3 py-1 rounded-full shadow-sm hover:bg-red-200 transition">
+                        <i class="fas fa-cogs mr-1 ml-1"></i> <span data-i18n="adminPanel">لوحة التحكم</span>
+                    </button>
+
+                    <!-- Language Toggle -->
+                    <button id="lang-toggle" class="flex items-center text-teal-700 dark:text-beige-200 hover:text-teal-500 dark:hover:text-teal-400 transition">
+                        <i class="fas fa-globe mr-1 ml-1"></i>
+                        <span id="lang-text" class="font-semibold text-sm">EN</span>
+                    </button>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="text-teal-700 dark:text-beige-200 hover:text-teal-500 dark:hover:text-teal-400 transition w-8 h-8 flex justify-center items-center rounded-full bg-beige-200 dark:bg-teal-800 shadow-inner">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </button>
+
+                    <!-- Admin Login Icon -->
+                    <button id="login-trigger" class="text-teal-600/50 hover:text-teal-600 dark:text-beige-200/50 dark:hover:text-beige-200 transition" title="Admin Login">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Admin Bar -->
+    <div id="admin-bar" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-beige-50 dark:bg-teal-900 shadow-2xl rounded-full px-6 py-3 border border-teal-200 dark:border-teal-700 flex gap-4 items-center">
+        <span class="text-xs font-bold text-teal-700/70 dark:text-beige-200/70 uppercase tracking-wider" data-i18n="adminMode">وضع التعديل</span>
+        <div class="h-4 w-px bg-teal-200 dark:bg-teal-700"></div>
+        <button id="btn-add-topic" class="text-teal-600 dark:text-teal-400 hover:text-teal-800 font-semibold text-sm flex items-center gap-2 transition">
+            <i class="fas fa-plus-circle"></i> <span data-i18n="addTopic">إضافة موضوع</span>
+        </button>
+        <button id="btn-logout" class="text-red-500 hover:text-red-700 font-semibold text-sm flex items-center gap-2 transition">
+            <i class="fas fa-sign-out-alt"></i> <span data-i18n="logout">خروج</span>
+        </button>
+    </div>
+
+    <main class="pt-24 pb-20 container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl" id="main-content">
+        <!-- Content will be injected here by JavaScript -->
+    </main>
+
+    <!-- Login Modal -->
+    <div id="modal-login" class="fixed inset-0 z-[100] hidden flex items-center justify-center modal-overlay opacity-0 transition-opacity duration-300">
+        <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-2xl border border-beige-200 dark:border-teal-700/50 max-w-sm w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300" id="login-card">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-teal-950 dark:text-beige-50" data-i18n="adminLoginTitle">تسجيل دخول الإدارة</h3>
+                    <button class="close-modal text-teal-700/50 hover:text-teal-900 dark:text-beige-200/50 dark:hover:text-beige-50"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-teal-900 dark:text-beige-100 mb-1" data-i18n="password">كلمة المرور</label>
+                    <input type="password" id="admin-password" class="w-full px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-950 dark:border-teal-700 dark:text-beige-50" placeholder="••••••••">
+                    <p id="login-error" class="text-red-500 text-xs mt-1 hidden" data-i18n="wrongPassword">كلمة المرور خاطئة</p>
+                </div>
+                <button id="btn-login-submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg transition shadow-md" data-i18n="login">دخول</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Text Modal -->
+    <div id="modal-edit" class="fixed inset-0 z-[100] hidden flex items-center justify-center modal-overlay opacity-0 transition-opacity duration-300">
+        <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-2xl border border-beige-200 dark:border-teal-700/50 max-w-2xl w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300">
+            <div class="p-6 border-b border-beige-200 dark:border-teal-700/50 flex justify-between items-center bg-beige-100 dark:bg-teal-950">
+                <h3 class="text-lg font-bold text-teal-950 dark:text-beige-50" data-i18n="editContent">تعديل المحتوى</h3>
+                <button class="close-modal text-teal-700/50 hover:text-teal-900 dark:text-beige-200/50 dark:hover:text-beige-50"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6">
+                <p class="text-xs text-teal-800/70 dark:text-beige-200/70 mb-2" data-i18n="editWarning">أنت تقوم بالتعديل في اللغة الحالية فقط.</p>
+                <textarea id="edit-textarea" class="w-full h-48 px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-950 dark:border-teal-700 dark:text-beige-50" dir="auto"></textarea>
+                <input type="hidden" id="edit-path">
+            </div>
+            <div class="p-4 border-t border-beige-200 dark:border-teal-700/50 flex justify-end gap-3 bg-beige-100 dark:bg-teal-950">
+                <button class="close-modal px-4 py-2 text-teal-900 dark:text-beige-100 hover:bg-beige-200 dark:hover:bg-teal-800 rounded-lg transition" data-i18n="cancel">إلغاء</button>
+                <button id="btn-save-edit" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition shadow-md" data-i18n="save">حفظ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Topic Modal -->
+    <div id="modal-add-topic" class="fixed inset-0 z-[100] hidden flex items-center justify-center modal-overlay opacity-0 transition-opacity duration-300">
+        <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-2xl border border-beige-200 dark:border-teal-700/50 max-w-2xl w-full mx-4 overflow-hidden transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-beige-200 dark:border-teal-700/50 flex justify-between items-center bg-beige-100 dark:bg-teal-950">
+                <h3 class="text-lg font-bold text-teal-950 dark:text-beige-50" data-i18n="addTopicTitle">إضافة موضوع جديد</h3>
+                <button class="close-modal text-teal-700/50 hover:text-teal-900 dark:text-beige-200/50 dark:hover:text-beige-50"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="space-y-4">
+                    <!-- Arabic Inputs -->
+                    <div class="p-4 border border-teal-200/50 rounded-lg bg-teal-50/50 dark:bg-teal-950/50 dark:border-teal-800">
+                        <h4 class="font-bold text-teal-800 dark:text-teal-400 mb-2">النسخة العربية</h4>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-teal-900 dark:text-beige-100 mb-1">عنوان الموضوع</label>
+                            <input type="text" id="topic-title-ar" class="w-full px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-900 dark:border-teal-700 dark:text-beige-50" dir="rtl">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-teal-900 dark:text-beige-100 mb-1">المحتوى</label>
+                            <textarea id="topic-content-ar" class="w-full h-24 px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-900 dark:border-teal-700 dark:text-beige-50" dir="rtl"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- English Inputs -->
+                    <div class="p-4 border border-beige-300 rounded-lg bg-beige-100/50 dark:bg-teal-950/30 dark:border-teal-800">
+                        <h4 class="font-bold text-teal-800 dark:text-teal-400 mb-2">English Version</h4>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-teal-900 dark:text-beige-100 mb-1">Topic Title</label>
+                            <input type="text" id="topic-title-en" class="w-full px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-900 dark:border-teal-700 dark:text-beige-50" dir="ltr">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-teal-900 dark:text-beige-100 mb-1">Content</label>
+                            <textarea id="topic-content-en" class="w-full h-24 px-3 py-2 border border-beige-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-teal-900 dark:border-teal-700 dark:text-beige-50" dir="ltr"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-beige-200 dark:border-teal-700/50 flex justify-end gap-3 bg-beige-100 dark:bg-teal-950 mt-auto">
+                <button class="close-modal px-4 py-2 text-teal-900 dark:text-beige-100 hover:bg-beige-200 dark:hover:bg-teal-800 rounded-lg transition" data-i18n="cancel">إلغاء</button>
+                <button id="btn-save-topic" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition shadow-md" data-i18n="saveTopic">حفظ الموضوع</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Default Data Structure (Based on CV) ---
+        const defaultData = {
+            en: {
+                name: "Ebrahim Hamid",
+                title: "HR & Admin Professional",
+                contact: {
+                    location: "Aden - Yemen",
+                    email: "Ebrahimhamid770@gmail.com / Ebrahim.hamid@care.org",
+                    phone: "+967-775566888"
+                },
+                profile: "Ambitious HR & Admin Professional with over 14 years of experience managing office operations, talent acquisition, procurement, and administrative budgeting in complex organizational environments. As a Herrmann Certified Practitioner (HBDI), I leverage Whole Brain Thinking to drive corporate culture initiatives, enhance team synergy, and resolve cross-functional communication challenges. Having lived in China, I bring basic conversational Chinese skills alongside fluent English and Arabic, enabling seamless cross-cultural collaboration within multinational teams. Proven track record in full-cycle onboarding/offboarding, contract compliance, vendor relations, and optimizing daily HR and administrative workflow.",
+                education: [
+                    { degree: "MBA", institution: "University of Science of Technology, Yemen Sana'a", date: "in progress" },
+                    { degree: "Certificate in Recruiting & Talent Acquisition", institution: "Cornell University, USA-Online", date: "April - July 2022" },
+                    { degree: "Herrmann Certified Practitioner", institution: "(certified in the Whole Brain Thinking system and HBDI®)", date: "" },
+                    { degree: "Bachelor's degree in Accounting", institution: "National University, Yemen Taiz", date: "Oct 2005 - June 2008" },
+                    { degree: "Diploma In Computer", institution: "National Institute, Yemen Taiz", date: "Oct 2003 - May 2005" },
+                    { degree: "TOFEL ITP", institution: "AMIDEAST ADEN", date: "Total Score 513, March 2015" }
+                ],
+                experience: [
+                    {
+                        role: "Country Capacity Building Performance Management & Recruitment Officer",
+                        company: "CARE International",
+                        location: "Aden",
+                        date: "1 July 2024 - Present",
+                        description: "Handling HR and administrative tasks including health insurance coordination, contract management, payroll, and staff onboarding. Key Achievements: Participated in developing CARE's Job Application System, Reviewed Policy & SOPs, Standardized procedures across Hub offices."
+                    },
+                    {
+                        role: "Country Recruitment Officer",
+                        company: "CARE International",
+                        location: "Sana'a",
+                        date: "22 December 2019 - 30 June 2024",
+                        description: "Worked closely with HR Manager implementing overall recruitment policy/strategy. Coordinated staff recruitment comprehensively. Managed applicant screening, interviews, reference checks, and orientation packages for new staff."
+                    },
+                    {
+                        role: "Admin & HR officer",
+                        company: "WAR Child UK",
+                        location: "Sana'a",
+                        date: "23 July 2017 - 20 December 2019",
+                        description: "Handled office expenses, logistics, visas, recruitment cycles, employment contracts, payroll preparation, and ensured adherence to HR Policies and Yemen's Labor Law."
+                    },
+                    {
+                        role: "Administrator (HR-Finance - Admin)",
+                        company: "ICRC",
+                        location: "Yemen, Taiz",
+                        date: "May 2012 - July 2017",
+                        description: "Responsible for financial management, budget follow-up, HR policies implementation, recruitment support, and premises management including maintenance and security measures."
+                    },
+                    {
+                        role: "Admin & Finance Officer / General Accountant",
+                        company: "DIA (French INGO)",
+                        location: "Yemen, Taiz",
+                        date: "October 2008 - June 2011",
+                        description: "Managed treasury forecast, safe management, end-month closure, payroll, and administrative classifications."
+                    }
+                ],
+                skills: {
+                    soft: "Leadership, Communication, Problem-solving, Organization, Adaptability",
+                    languages: "Arabic (Native), English (Fluent), French (Intermediate), Chinese (Basics)",
+                    computer: "Windows, MS Office (Advanced Excel), Typing"
+                },
+                customTopics: [
+                    {
+                        id: "courses",
+                        title: "Other Courses",
+                        content: "• Admin and Finance Field Course (02-07 Nov 2013) - ICRC Naivasha-Kenya\n• Leading a team course (28-31 Jan 2013) - ICRC Amman Regional Delegation\n• Personal efficiency (25-26 May 2014) - ICRC Yemen Delegation\n• Integration Course (15-25 May 2016) - ICRC Amman Regional Delegation\n• Managing recruitment (22 Feb 2018) - Humanitarian Leadership Academy (Kaya)"
+                    }
+                ] // Array to hold dynamically added topics { id, title, content }
+            },
+            ar: {
+                name: "إبراهيم حميد",
+                title: "أخصائي موارد بشرية وإدارة",
+                contact: {
+                    location: "عدن - اليمن",
+                    email: "Ebrahimhamid770@gmail.com / Ebrahim.hamid@care.org",
+                    phone: "+967-775566888"
+                },
+                profile: "محترف طموح في مجال الموارد البشرية والإدارة بخبرة تزيد عن 14 عاماً في إدارة عمليات المكاتب، واستقطاب المواهب، والمشتريات، والميزانيات الإدارية في بيئات تنظيمية معقدة. بصفتي ممارس معتمد من هيرمان (HBDI)، أستخدم تفكير الدماغ الكامل لدفع مبادرات ثقافة الشركات، وتعزيز تآزر الفريق، وحل تحديات الاتصال. عشت في الصين وأمتلك مهارات محادثة أساسية باللغة الصينية إلى جانب طلاقتی في اللغتين الإنجليزية والعربية، مما يتيح التعاون السلس عبر الثقافات. أمتلك سجلاً حافلاً في دورة التوظيف الكاملة، والامتثال للعقود، وعلاقات الموردين، وتحسين سير العمل اليومي.",
+                education: [
+                    { degree: "ماجستير إدارة الأعمال (MBA)", institution: "جامعة العلوم والتكنولوجيا، صنعاء، اليمن", date: "قيد الدراسة" },
+                    { degree: "شهادة في التوظيف واستقطاب المواهب", institution: "جامعة كورنيل، الولايات المتحدة - عبر الإنترنت", date: "أبريل - يوليو 2022" },
+                    { degree: "ممارس معتمد من هيرمان", institution: "(معتمد في نظام تفكير الدماغ الكامل و HBDI®)", date: "" },
+                    { degree: "بكالوريوس في المحاسبة", institution: "الجامعة الوطنية، تعز، اليمن", date: "أكتوبر 2005 - يونيو 2008" },
+                    { degree: "دبلوم في الحاسوب", institution: "المعهد الوطني، تعز، اليمن", date: "أكتوبر 2003 - مايو 2005" },
+                    { degree: "توفل ITP", institution: "أمديست عدن", date: "الدرجة الكلية 513، مارس 2015" }
+                ],
+                experience: [
+                    {
+                        role: "مسؤول بناء القدرات وإدارة الأداء والتوظيف",
+                        company: "منظمة كير الدولية (CARE)",
+                        location: "عدن",
+                        date: "1 يوليو 2024 - الحاضر",
+                        description: "التعامل مع مهام الموارد البشرية والإدارة بما في ذلك التأمين الصحي، إدارة العقود، الرواتب، وتهيئة الموظفين الجدد. الإنجازات: المشاركة في تطوير نظام التوظيف الخاص بالمنظمة، مراجعة وتحديث الإجراءات التشغيلية القياسية (SOPs)."
+                    },
+                    {
+                        role: "مسؤول التوظيف القطري",
+                        company: "منظمة كير الدولية (CARE)",
+                        location: "صنعاء",
+                        date: "22 ديسمبر 2019 - 30 يونيو 2024",
+                        description: "العمل عن كثب مع مدير الموارد البشرية لتنفيذ استراتيجيات التوظيف. تنسيق التوظيف بشكل شامل، إدارة فحص المتقدمين، المقابلات، التحقق من المراجع، وإعداد برامج التوجيه للموظفين الجدد."
+                    },
+                    {
+                        role: "مسؤول موارد بشرية وإدارة",
+                        company: "منظمة طفل الحرب البريطانية (WAR Child UK)",
+                        location: "صنعاء",
+                        date: "23 يوليو 2017 - 20 ديسمبر 2019",
+                        description: "إدارة نفقات المكتب، اللوجستيات، التأشيرات، دورات التوظيف، عقود العمل، إعداد كشوف المرتبات، وضمان الامتثال لسياسات الموارد البشرية وقانون العمل اليمني."
+                    },
+                    {
+                        role: "إداري (موارد بشرية - مالية - إدارة)",
+                        company: "اللجنة الدولية للصليب الأحمر (ICRC)",
+                        location: "تعز، اليمن",
+                        date: "مايو 2012 - يوليو 2017",
+                        description: "مسؤول عن الإدارة المالية، متابعة الميزانية، تنفيذ سياسات الموارد البشرية، دعم التوظيف، وإدارة المرافق بما في ذلك الصيانة وتدابير الأمن."
+                    },
+                    {
+                        role: "مسؤول مالي وإداري / محاسب عام",
+                        company: "منظمة ضياء الفرنسية (DIA)",
+                        location: "تعز، اليمن",
+                        date: "أكتوبر 2008 - يونيو 2011",
+                        description: "إدارة توقعات الخزينة، إدارة الخزينة، إغلاق حسابات نهاية الشهر، إعداد الرواتب، وأنظمة التصنيف الإداري."
+                    }
+                ],
+                skills: {
+                    soft: "القيادة، التواصل، حل المشكلات، التنظيم، القدرة على التكيف",
+                    languages: "العربية (اللغة الأم)، الإنجليزية (بطلاقة)، الفرنسية (متوسط)، الصينية (أساسيات)",
+                    computer: "نظام ويندوز، حزمة أوفيس (إكسل متقدم)، الطباعة السريعة"
+                },
+                customTopics: [
+                    {
+                        id: "courses",
+                        title: "دورات تدريبية أخرى",
+                        content: "• دورة ميدانية في الإدارة والتمويل (02-07 نوفمبر 2013) - اللجنة الدولية للصليب الأحمر، نيفاشا - كينيا\n• دورة قيادة الفريق (28-31 يناير 2013) - اللجنة الدولية للصليب الأحمر، عمان\n• الفعالية الشخصية (25-26 مايو 2014) - اللجنة الدولية للصليب الأحمر، صنعاء\n• دورة الاندماج (15-25 مايو 2016) - اللجنة الدولية للصليب الأحمر، عمان\n• إدارة التوظيف (22 فبراير 2018) - أكاديمية القيادة الإنسانية (Kaya)"
+                    }
+                ]
+            }
+        };
+
+        // Static UI Translations
+        const uiTranslations = {
+            en: {
+                adminPanel: "Admin Panel",
+                adminMode: "Admin Mode Active",
+                addTopic: "Add Topic",
+                logout: "Logout",
+                adminLoginTitle: "Admin Login",
+                password: "Password",
+                wrongPassword: "Incorrect Password!",
+                login: "Login",
+                editContent: "Edit Content",
+                editWarning: "You are editing the content for the current language only.",
+                cancel: "Cancel",
+                save: "Save Changes",
+                addTopicTitle: "Add New Topic",
+                saveTopic: "Save Topic",
+                profileTitle: "Professional Profile",
+                experienceTitle: "Professional Experience",
+                educationTitle: "Education & Certificates",
+                skillsTitle: "Skills",
+                softSkills: "Soft Skills",
+                langSkills: "Languages",
+                compSkills: "Computer Skills"
+            },
+            ar: {
+                adminPanel: "لوحة التحكم",
+                adminMode: "وضع التعديل مفعل",
+                addTopic: "إضافة موضوع",
+                logout: "خروج",
+                adminLoginTitle: "تسجيل دخول الإدارة",
+                password: "كلمة المرور",
+                wrongPassword: "كلمة المرور خاطئة!",
+                login: "دخول",
+                editContent: "تعديل المحتوى",
+                editWarning: "أنت تقوم بالتعديل في اللغة الحالية فقط.",
+                cancel: "إلغاء",
+                save: "حفظ التعديلات",
+                addTopicTitle: "إضافة موضوع جديد",
+                saveTopic: "حفظ الموضوع",
+                profileTitle: "الملف الشخصي",
+                experienceTitle: "الخبرة المهنية",
+                educationTitle: "التعليم والشهادات",
+                skillsTitle: "المهارات",
+                softSkills: "المهارات الشخصية",
+                langSkills: "اللغات",
+                compSkills: "مهارات الحاسوب"
+            }
+        };
+
+        // --- 2. State Management ---
+        let state = {
+            lang: 'ar',
+            theme: 'light',
+            isAdmin: false,
+            data: null
+        };
+
+        const ADMIN_PASSWORD = "Eb123ha456";
+
+        function initApp() {
+            // Load state from local storage or set defaults
+            const savedData = localStorage.getItem('eh_cv_data_v2');
+            if (savedData) {
+                try {
+                    state.data = JSON.parse(savedData);
+                    // Merge any missing fields from default data in case of updates
+                    if(!state.data.en.customTopics) state.data.en.customTopics = [];
+                    if(!state.data.ar.customTopics) state.data.ar.customTopics = [];
+                } catch(e) {
+                    state.data = JSON.parse(JSON.stringify(defaultData));
+                }
+            } else {
+                state.data = JSON.parse(JSON.stringify(defaultData));
+            }
+
+            state.lang = localStorage.getItem('eh_cv_lang_v2') || 'en';
+            state.theme = localStorage.getItem('eh_cv_theme') || 'light';
+            
+            // Check system preference if no theme saved
+            if (!localStorage.getItem('eh_cv_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                state.theme = 'dark';
+            }
+
+            applyTheme();
+            applyLanguage();
+            renderApp();
+            attachEventListeners();
+        }
+
+        function saveData() {
+            localStorage.setItem('eh_cv_data_v2', JSON.stringify(state.data));
+        }
+
+        // --- 3. UI Application Logic ---
+        
+        function applyTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (state.theme === 'dark') {
+                html.classList.add('dark');
+                icon.className = 'fas fa-sun text-yellow-400';
+                localStorage.setItem('eh_cv_theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                icon.className = 'fas fa-moon text-gray-600';
+                localStorage.setItem('eh_cv_theme', 'light');
+            }
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            applyTheme();
+        }
+
+        function applyLanguage() {
+            const html = document.documentElement;
+            html.lang = state.lang;
+            html.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.getElementById('lang-text').textContent = state.lang === 'ar' ? 'EN' : 'عربي';
+            localStorage.setItem('eh_cv_lang_v2', state.lang);
+            
+            // Update static UI translations
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (uiTranslations[state.lang][key]) {
+                    if (el.tagName === 'INPUT' && el.type === 'text') {
+                        el.placeholder = uiTranslations[state.lang][key];
+                    } else {
+                        el.textContent = uiTranslations[state.lang][key];
+                    }
+                }
+            });
+
+            // Re-render content
+            renderApp();
+        }
+
+        function toggleLanguage() {
+            state.lang = state.lang === 'ar' ? 'en' : 'ar';
+            applyLanguage();
+        }
+
+        // Generate Edit Button HTML
+        function getEditBtn(dataPath) {
+            return `<button class="edit-btn" onclick="openEditModal('${dataPath}')" title="Edit"><i class="fas fa-pencil-alt"></i></button>`;
+        }
+
+        // Helper to wrap content in editable div
+        function wrapEditable(content, dataPath, classes = "") {
+            return `<div class="editable-element ${classes} relative">${content} ${getEditBtn(dataPath)}</div>`;
+        }
+
+        // --- 4. Content Rendering ---
+
+        function renderApp() {
+            const d = state.data[state.lang];
+            const t = uiTranslations[state.lang];
+            const main = document.getElementById('main-content');
+            const adminClass = state.isAdmin ? 'admin-mode' : '';
+
+            // Update Header Name
+            const headerNameEl = document.getElementById('header-name');
+            headerNameEl.textContent = d.name;
+            headerNameEl.className = `font-bold text-xl sm:text-2xl text-teal-700 dark:text-teal-300 ${state.lang === 'ar' ? 'font-ruqaa' : 'font-montserrat'}`;
+            
+            // Toggle Admin UI
+            document.getElementById('admin-bar').classList.toggle('hidden', !state.isAdmin);
+            document.getElementById('login-trigger').classList.toggle('hidden', state.isAdmin);
+            document.documentElement.classList.toggle('admin-mode', state.isAdmin);
+
+            let html = '';
+
+            // 1. Hero Section
+            const linkedinUrl = "https://www.linkedin.com/in/hamid-ebrahim-5943a97b/?isSelfProfile=true";
+            const whatsappUrl = "https://api.whatsapp.com/send?phone=967775566888";
+            
+            const nameFontClass = state.lang === 'ar' ? 'font-ruqaa' : 'font-montserrat';
+            
+            html += `
+                <section class="mb-12 bg-beige-50/80 dark:bg-teal-900/80 backdrop-blur-md rounded-2xl shadow-lg p-5 md:p-8 border border-beige-200 dark:border-teal-700/50 interactive-card">
+                    <div class="flex flex-row items-center gap-4 sm:gap-6 md:gap-8 relative z-10">
+                        <div class="flex-shrink-0">
+                            <img src="ebrahim logo.jpg" alt="${d.name} Logo" class="w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 object-cover rounded-xl shadow-md border border-beige-200 dark:border-teal-700">
+                        </div>
+                        <div class="flex-1 text-${state.lang === 'ar' ? 'right' : 'left'}">
+                            ${wrapEditable(`<h1 class="text-3xl md:text-5xl font-bold text-teal-950 dark:text-beige-50 mb-2 ${nameFontClass}">${d.name}</h1>`, 'name')}
+                            ${wrapEditable(`<h2 class="text-lg sm:text-xl md:text-2xl text-teal-700 dark:text-teal-300 font-medium mb-4">${d.title}</h2>`, 'title')}
+                            
+                            <div class="flex flex-wrap items-center justify-start gap-4 sm:gap-6 text-sm text-teal-900/80 dark:text-beige-200 mt-2">
+                                <a href="mailto:${d.contact.email.split(' / ')[0]}" class="flex items-center gap-2 hover:text-teal-600 dark:hover:text-teal-400 transition truncate">
+                                    <i class="fas fa-envelope"></i> <span class="truncate">${d.contact.email}</span>
+                                </a>
+                                <span class="flex items-center gap-2">
+                                    <i class="fas fa-map-marker-alt"></i> ${d.contact.location}
+                                </span>
+                                
+                                <!-- Social & Contact Icons (Inline) -->
+                                <div class="flex items-center gap-3 text-lg">
+                                    <a href="${linkedinUrl}" target="_blank" class="text-teal-700 dark:text-teal-400 hover:scale-125 hover:text-teal-500 transition-transform duration-300" title="LinkedIn">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="${whatsappUrl}" target="_blank" class="text-teal-700 dark:text-teal-400 hover:scale-125 hover:text-teal-500 transition-transform duration-300" title="WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // 2. Profile
+            html += `
+                <section class="mb-10">
+                    <h3 class="text-2xl font-bold text-teal-950 dark:text-beige-50 mb-6 section-title inline-block">${t.profileTitle}</h3>
+                    <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-md p-6 border border-beige-200 dark:border-teal-700/50 leading-relaxed text-teal-900/80 dark:text-beige-100 interactive-card text-justify">
+                        ${wrapEditable(d.profile, 'profile')}
+                    </div>
+                </section>
+            `;
+
+            // 3. Experience
+            html += `
+                <section class="mb-12 relative rounded-3xl p-5 sm:p-7 z-0 shadow-lg overflow-hidden">
+                    <!-- Journey Background Image -->
+                    <div class="absolute inset-0 bg-cover bg-center opacity-50 dark:opacity-20 -z-20 transition-opacity duration-500" style="background-image: url('ebrahim-career-journey_f70617d0.jpg');"></div>
+                    <div class="absolute inset-0 bg-beige-50/70 dark:bg-teal-950/75 backdrop-blur-md -z-10 border border-teal-200/50 dark:border-teal-700/50"></div>
+                    
+                    <h3 class="text-2xl font-bold text-teal-900 dark:text-beige-200 mb-6 section-title inline-block relative z-10">${t.experienceTitle}</h3>
+                    <div class="space-y-6 relative z-10">
+            `;
+            d.experience.forEach((exp, index) => {
+                html += `
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-md p-6 border-l-4 border-teal-500 dark:border-teal-400 interactive-card">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                                <div>
+                                    ${wrapEditable(`<h4 class="text-xl font-bold text-teal-950 dark:text-beige-50">${exp.role}</h4>`, `experience.${index}.role`)}
+                                    ${wrapEditable(`<div class="text-teal-700 dark:text-teal-300 font-semibold mt-1">${exp.company} <span class="text-teal-800/50 dark:text-beige-200/50 font-normal">| ${exp.location}</span></div>`, `experience.${index}.company`)}
+                                </div>
+                                ${wrapEditable(`<span class="inline-block bg-beige-200 dark:bg-teal-800 text-teal-900 dark:text-beige-100 text-sm px-3 py-1 rounded-full mt-2 md:mt-0 whitespace-nowrap shadow-inner">${exp.date}</span>`, `experience.${index}.date`, 'mt-2 md:mt-0')}
+                            </div>
+                            ${wrapEditable(`<p class="text-teal-900/80 dark:text-beige-200 mt-3 text-sm leading-relaxed">${exp.description}</p>`, `experience.${index}.description`)}
+                        </div>
+                `;
+            });
+            html += `</div></section>`;
+
+            // 4. Education
+            html += `
+                <section class="mb-12 relative rounded-3xl p-5 sm:p-7 z-0 shadow-lg overflow-hidden">
+                    <!-- Capacity Materials Background Image -->
+                    <div class="absolute inset-0 bg-cover bg-center opacity-60 dark:opacity-20 -z-20 transition-opacity duration-500" style="background-image: url('ebrahim-capacity-materials_e03c014a.jpg');"></div>
+                    <div class="absolute inset-0 bg-beige-50/70 dark:bg-teal-950/75 backdrop-blur-md -z-10 border border-teal-200/50 dark:border-teal-700/50"></div>
+                    
+                    <h3 class="text-2xl font-bold text-teal-900 dark:text-beige-200 mb-6 section-title inline-block relative z-10">${t.educationTitle}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
+            `;
+            d.education.forEach((edu, index) => {
+                html += `
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-xl p-5 border border-beige-200 dark:border-teal-700/50 flex flex-col justify-center interactive-card">
+                            ${wrapEditable(`<h4 class="font-bold text-teal-950 dark:text-beige-50">${edu.degree}</h4>`, `education.${index}.degree`)}
+                            ${wrapEditable(`<p class="text-teal-700 dark:text-teal-300 text-sm mt-1">${edu.institution}</p>`, `education.${index}.institution`)}
+                            ${edu.date ? wrapEditable(`<p class="text-teal-800/60 dark:text-beige-200/60 text-xs mt-2">${edu.date}</p>`, `education.${index}.date`) : ''}
+                        </div>
+                `;
+            });
+            html += `</div></section>`;
+
+            // 5. Skills
+            html += `
+                <section class="mb-10">
+                    <h3 class="text-2xl font-bold text-teal-950 dark:text-beige-50 mb-6 section-title inline-block">${t.skillsTitle}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-xl p-6 border border-beige-200 dark:border-teal-700/50 interactive-card">
+                            <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-teal-600 dark:text-teal-300 mb-4 shadow-sm">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-3 text-teal-950 dark:text-beige-50">${t.softSkills}</h4>
+                            ${wrapEditable(`<p class="text-teal-900/80 dark:text-beige-200 text-sm leading-relaxed">${d.skills.soft}</p>`, `skills.soft`)}
+                        </div>
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-xl p-6 border border-beige-200 dark:border-teal-700/50 interactive-card">
+                            <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-teal-600 dark:text-teal-300 mb-4 shadow-sm">
+                                <i class="fas fa-language text-xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-3 text-teal-950 dark:text-beige-50">${t.langSkills}</h4>
+                            ${wrapEditable(`<p class="text-teal-900/80 dark:text-beige-200 text-sm leading-relaxed">${d.skills.languages}</p>`, `skills.languages`)}
+                        </div>
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-xl p-6 border border-beige-200 dark:border-teal-700/50 interactive-card">
+                            <div class="w-12 h-12 rounded-full bg-teal-100 dark:bg-teal-800 flex items-center justify-center text-teal-600 dark:text-teal-300 mb-4 shadow-sm">
+                                <i class="fas fa-laptop-code text-xl"></i>
+                            </div>
+                            <h4 class="font-bold mb-3 text-teal-950 dark:text-beige-50">${t.compSkills}</h4>
+                            ${wrapEditable(`<p class="text-teal-900/80 dark:text-beige-200 text-sm leading-relaxed">${d.skills.computer}</p>`, `skills.computer`)}
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            // 6. Custom Topics
+            if (d.customTopics && d.customTopics.length > 0) {
+                d.customTopics.forEach((topic, index) => {
+                    html += `
+                    <section class="mb-10 relative group">
+                        ${state.isAdmin ? `<button onclick="deleteTopic(${index})" class="absolute top-0 ${state.lang==='ar'? 'left-0' : 'right-0'} text-red-500 hover:text-red-700 p-2 opacity-0 group-hover:opacity-100 transition z-10" title="Delete Topic"><i class="fas fa-trash"></i></button>` : ''}
+                        
+                        ${wrapEditable(`<h3 class="text-2xl font-bold text-teal-950 dark:text-beige-50 mb-6 section-title inline-block">${topic.title}</h3>`, `customTopics.${index}.title`)}
+                        
+                        <div class="bg-beige-50 dark:bg-teal-900 rounded-2xl shadow-md p-6 border border-beige-200 dark:border-teal-700/50 leading-relaxed text-teal-900/80 dark:text-beige-100 interactive-card whitespace-pre-line">
+                            ${wrapEditable(topic.content, `customTopics.${index}.content`)}
+                        </div>
+                    </section>
+                    `;
+                });
+            }
+
+            main.innerHTML = html;
+
+            // Initialize Spotlight Effect for Interactive Cards
+            document.querySelectorAll('.interactive-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+        }
+
+        // --- 5. Admin & Editing Logic ---
+        
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        }
+
+        function setNestedValue(obj, path, value) {
+            const parts = path.split('.');
+            let current = obj;
+            for (let i = 0; i < parts.length - 1; i++) {
+                current = current[parts[i]];
+            }
+            current[parts[parts.length - 1]] = value;
+        }
+
+        // Modals Control
+        function showModal(id) {
+            const modal = document.getElementById(id);
+            const card = modal.querySelector('div.transform');
+            modal.classList.remove('hidden');
+            // small delay for transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }, 10);
+        }
+
+        function hideModal(id) {
+            const modal = document.getElementById(id);
+            const card = modal.querySelector('div.transform');
+            modal.classList.add('opacity-0');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Edit Functionality
+        window.openEditModal = function(dataPath) {
+            if(!state.isAdmin) return;
+            
+            const currentValue = getNestedValue(state.data[state.lang], dataPath);
+            document.getElementById('edit-path').value = dataPath;
+            document.getElementById('edit-textarea').value = currentValue;
+            document.getElementById('edit-textarea').dir = state.lang === 'ar' ? 'rtl' : 'ltr';
+            
+            showModal('modal-edit');
+        };
+
+        document.getElementById('btn-save-edit').addEventListener('click', () => {
+            const dataPath = document.getElementById('edit-path').value;
+            const newValue = document.getElementById('edit-textarea').value;
+            
+            // Only updates the current language
+            setNestedValue(state.data[state.lang], dataPath, newValue);
+            saveData();
+            renderApp();
+            hideModal('modal-edit');
+        });
+
+        // Add Topic Functionality
+        document.getElementById('btn-add-topic').addEventListener('click', () => {
+            document.getElementById('topic-title-ar').value = '';
+            document.getElementById('topic-content-ar').value = '';
+            document.getElementById('topic-title-en').value = '';
+            document.getElementById('topic-content-en').value = '';
+            showModal('modal-add-topic');
+        });
+
+        document.getElementById('btn-save-topic').addEventListener('click', () => {
+            const titleAr = document.getElementById('topic-title-ar').value.trim();
+            const contentAr = document.getElementById('topic-content-ar').value.trim();
+            const titleEn = document.getElementById('topic-title-en').value.trim();
+            const contentEn = document.getElementById('topic-content-en').value.trim();
+            
+            if(!titleAr && !titleEn) return; // Need at least a title
+
+            const newId = Date.now().toString();
+            
+            state.data.ar.customTopics.push({
+                id: newId,
+                title: titleAr || titleEn,
+                content: contentAr || contentEn
+            });
+            
+            state.data.en.customTopics.push({
+                id: newId,
+                title: titleEn || titleAr,
+                content: contentEn || contentAr
+            });
+
+            saveData();
+            renderApp();
+            hideModal('modal-add-topic');
+        });
+
+        window.deleteTopic = function(index) {
+            if(confirm('Are you sure you want to delete this topic? / هل أنت متأكد من حذف هذا الموضوع؟')) {
+                state.data.ar.customTopics.splice(index, 1);
+                state.data.en.customTopics.splice(index, 1);
+                saveData();
+                renderApp();
+            }
+        };
+
+        // --- 6. Event Listeners ---
+        
+        function attachEventListeners() {
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Login Logic
+            document.getElementById('login-trigger').addEventListener('click', () => {
+                document.getElementById('admin-password').value = '';
+                document.getElementById('login-error').classList.add('hidden');
+                showModal('modal-login');
+                setTimeout(() => document.getElementById('admin-password').focus(), 100);
+            });
+
+            const submitLogin = () => {
+                const pass = document.getElementById('admin-password').value;
+                if (pass === ADMIN_PASSWORD) {
+                    state.isAdmin = true;
+                    hideModal('modal-login');
+                    renderApp();
+                } else {
+                    document.getElementById('login-error').classList.remove('hidden');
+                }
+            };
+
+            document.getElementById('btn-login-submit').addEventListener('click', submitLogin);
+            document.getElementById('admin-password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitLogin();
+            });
+
+            // Logout
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                state.isAdmin = false;
+                renderApp();
+            });
+
+            // Close modal buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    hideModal(this.closest('.modal-overlay').id);
+                });
+            });
+
+            // Close modal on click outside
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideModal(this.id);
+                    }
+                });
+            });
+        }
+
+        // Initialize App on load
+        window.addEventListener('DOMContentLoaded', initApp);
+
+    </script>
+</body>
+</html>
